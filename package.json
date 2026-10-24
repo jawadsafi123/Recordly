@@ -1,18 +1,18 @@
 {
-	"name": "recordly",
-	"productName": "Recordly",
-	"description": "A free, creator-focused screen recorder with auto-zoom, cursor effects, backgrounds, annotations, and more - built for polished videos out of the box.",
-	"author": "webadderall",
-	"homepage": "https://github.com/webadderallorg/Recordly",
+	"name": "openspype",
+	"productName": "OpenSpype",
+	"description": "A free, privacy-first screen recorder with audio enhancement, offline voice studio, and true A/V sync - built for polished videos without subscriptions.",
+	"author": "jawadsafi123",
+	"homepage": "https://github.com/jawadsafi123/OpenSpype",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/webadderallorg/Recordly.git"
+		"url": "https://github.com/jawadsafi123/OpenSpype.git"
 	},
 	"bugs": {
-		"url": "https://github.com/webadderallorg/Recordly/issues"
+		"url": "https://github.com/jawadsafi123/OpenSpype/issues"
 	},
 	"private": true,
-	"version": "1.4.0",
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite --config vite.config.ts",
