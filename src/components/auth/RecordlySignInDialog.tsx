@@ -203,7 +203,6 @@ export function RecordlySignInDialog({
 		}),
 	};
 	const disabled = Boolean(busy);
-	const artwork = `${import.meta.env.BASE_URL}auth/login-banner.png`;
 	const SignInBody = onboarding ? OnboardingBody : Fragment;
 	const signInContent = (
 		<motion.div
@@ -235,12 +234,7 @@ export function RecordlySignInDialog({
 										<>
 											Welcome to{" "}
 											<span className="inline-flex items-center gap-2 whitespace-nowrap align-bottom">
-												<img
-													src={`${import.meta.env.BASE_URL}app-icons/recordly-128.png`}
-													alt=""
-													className="size-7 rounded-lg sm:size-8"
-												/>
-												OpenSpype
+												Recosy
 											</span>
 										</>
 									)
@@ -253,14 +247,9 @@ export function RecordlySignInDialog({
 							/>
 						) : (
 							<Modal.Header className="items-center gap-3 text-center">
-								<div className="flex items-center gap-3" aria-label="OpenSpype">
-									<img
-										src={`${import.meta.env.BASE_URL}app-icons/recordly-128.png`}
-										alt=""
-										className="size-12 rounded-xl"
-									/>
+								<div className="flex items-center gap-3" aria-label="Recosy">
 									<span className="text-3xl font-semibold tracking-tight">
-										OpenSpype
+										Recosy
 									</span>
 								</div>
 								<Modal.Heading className="whitespace-nowrap text-[clamp(12px,5cqw,22px)] font-semibold leading-tight tracking-tight">
@@ -474,7 +463,7 @@ export function RecordlySignInDialog({
 					<MotionDialog
 						layout={!onboarding}
 						transition={transition}
-						aria-label={onboarding ? "Welcome to OpenSpype" : undefined}
+						aria-label={onboarding ? "Welcome to Recosy" : undefined}
 						data-onboarding-state={
 							onboarding ? (permissions ? "permissions" : "login") : undefined
 						}
@@ -529,7 +518,7 @@ export function RecordlySignInDialog({
 										src={
 											wide
 												? `${import.meta.env.BASE_URL}auth/login-side.png`
-												: artwork
+												: `${import.meta.env.BASE_URL}auth/login-banner.png`
 										}
 										alt=""
 										className="absolute inset-0 size-full object-cover object-center"
