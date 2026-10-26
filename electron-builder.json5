@@ -1,7 +1,7 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "dev.openspype.app",
+  "appId": "dev.recosy.app",
   "electronUpdaterCompatibility": ">=2.16",
   "asar": true,
   "asarUnpack": [
@@ -10,11 +10,11 @@
     "node_modules/uiohook-napi/**",
     "electron/native/bin/**"
   ],
-  "productName": "OpenSpype",
+  "productName": "Recosy",
   "protocols": [
     {
-      "name": "OpenSpype authentication",
-      "schemes": ["openspype"]
+      "name": "Recosy authentication",
+      "schemes": ["recosy"]
     }
   ],
   "npmRebuild": true,
@@ -53,7 +53,7 @@
     {
       "provider": "github",
       "owner": "jawadsafi123",
-      "repo": "OpenSpype",
+      "repo": "Recordly",
       "tagNamePrefix": "v",
       "publishAutoUpdate": true
     }
@@ -76,29 +76,29 @@
     "icon": "icons/icons/mac/icon.icns",
     "artifactName": "${productName}-${arch}.${ext}",
     "extendInfo": {
-      "NSAudioCaptureUsageDescription": "OpenSpype needs audio capture permission to record system audio.",
-      "NSCameraUsageDescription": "OpenSpype needs camera access to record webcam video.",
-      "NSMicrophoneUsageDescription": "OpenSpype needs microphone access to record voice audio.",
+      "NSAudioCaptureUsageDescription": "Recosy needs audio capture permission to record system audio.",
+      "NSCameraUsageDescription": "Recosy needs camera access to record webcam video.",
+      "NSMicrophoneUsageDescription": "Recosy needs microphone access to record voice audio.",
       "NSCameraUseContinuityCameraDeviceType": true,
       "com.apple.security.device.audio-input": true,
       "CFBundleDocumentTypes": [
         {
-          "CFBundleTypeName": "OpenSpype Project",
+          "CFBundleTypeName": "Recosy Project",
           "CFBundleTypeRole": "Editor",
-          "CFBundleTypeExtensions": ["openspype"],
+          "CFBundleTypeExtensions": ["recosy"],
           "CFBundleTypeIconFile": "icon.icns",
           "LSHandlerRank": "Owner",
-          "LSItemContentTypes": ["dev.openspype.app.project"]
+          "LSItemContentTypes": ["dev.recosy.app.project"]
         }
       ],
       "UTExportedTypeDeclarations": [
         {
-          "UTTypeIdentifier": "dev.openspype.app.project",
-          "UTTypeDescription": "OpenSpype Project",
+          "UTTypeIdentifier": "dev.recosy.app.project",
+          "UTTypeDescription": "Recosy Project",
           "UTTypeConformsTo": ["public.json"],
           "UTTypeTagSpecification": {
-            "public.filename-extension": ["openspype"],
-            "public.mime-type": "application/x-openspype-project"
+            "public.filename-extension": ["recosy"],
+            "public.mime-type": "application/x-recosy-project"
           }
         }
       ]
@@ -117,7 +117,7 @@
       "nsis"
     ],
     "icon": "icons/icons/win/icon.ico",
-    "executableName": "OpenSpype",
+    "executableName": "Recosy",
     "artifactName": "${productName}-windows-${arch}.${ext}"
   },
   "nsis": {
@@ -125,6 +125,6 @@
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "OpenSpype"
+    "shortcutName": "Recosy"
   }
 }
