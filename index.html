@@ -13,13 +13,13 @@
         let startupView = new URLSearchParams(location.search).get("startupView");
         try { startupView = window.electronAPI?.getEditorStartupView?.() || startupView; }
         catch { /* Fall back to the explicit destination if the bridge is unavailable. */ }
-        try { if (localStorage.getItem("recosy.open-dashboard")) startupView = "home"; }
+        try { if (localStorage.getItem("openspype.open-dashboard")) startupView = "home"; }
         catch { /* Home metadata can still be resolved through the desktop bridge. */ }
         document.documentElement.dataset.startupView = startupView === "home" ? "home" : "editor";
         let preference = "system";
         try {
-          preference = window.electronAPI?.getAppSetting("recosy.theme") ||
-            localStorage.getItem("recosy.theme") || "system";
+          preference = window.electronAPI?.getAppSetting("openspype.theme") ||
+            localStorage.getItem("openspype.theme") || "system";
         } catch { /* Use the system theme when persisted settings are unavailable. */ }
         document.documentElement.dataset.theme =
           preference === "dark" ||
