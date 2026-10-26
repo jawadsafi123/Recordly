@@ -32,11 +32,11 @@ export function OnboardingLayout({
 				transition={transition}
 				className="relative m-2 mb-0 min-h-24 flex-1 overflow-hidden rounded-2xl sm:min-h-32"
 			>
-				<img
-					src={`${import.meta.env.BASE_URL}auth/login-banner.png`}
-					alt=""
-					className="absolute inset-0 size-full object-cover object-center"
-				/>
+				<div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-accent/15 via-transparent to-accent/10">
+					<span className="text-4xl font-bold tracking-tight text-accent sm:text-5xl">
+						Recosy
+					</span>
+				</div>
 			</motion.div>
 			<motion.div
 				layout={reduceMotion ? false : "position"}
@@ -107,14 +107,9 @@ export function OnboardingHeader({
 				<div
 					data-onboarding-brand
 					className="mb-3 flex items-center gap-2.5"
-					aria-label="Recordly"
+					aria-label="Recosy"
 				>
-					<img
-						src={`${import.meta.env.BASE_URL}app-icons/recordly-128.png`}
-						alt=""
-						className="size-10 rounded-xl"
-					/>
-					<span className="text-lg font-semibold tracking-tight">Recordly</span>
+					<span className="text-lg font-semibold tracking-tight">Recosy</span>
 				</div>
 			)}
 			<Modal.Heading className="text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
