@@ -164,7 +164,7 @@ export function AccountSettings({ user }: { user: User | null }) {
 			)}
 			<SettingsRow
 				title="Sign out"
-				description="Sign out of Recordly on all devices. Local projects stay on this computer."
+				description="Sign out of Recosy on all devices. Local projects stay on this computer."
 				stacked
 			>
 				<Button
