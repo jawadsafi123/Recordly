@@ -80,8 +80,11 @@ export function RecordlySignInDialog({
 	const awaitingSignIn = useRef(false);
 	const wide = onboarding || variant === "wide";
 	const [showPermissions, setShowPermissions] = useState(false);
-	const requiresSignIn = onboarding && !user;
-	const permissions = onboarding && Boolean(user) && showPermissions;
+	// Local-first mode: when no sign-in backend is configured the account stage
+	// cannot succeed, so onboarding starts directly at permissions.
+	const localMode = onboarding && !configured;
+	const requiresSignIn = onboarding && !user && !localMode;
+	const permissions = Boolean((user || localMode) && showPermissions);
 	const [email, setEmail] = useState("");
 	const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 	const [busy, setBusy] = useState<string>();
@@ -133,8 +136,8 @@ export function RecordlySignInDialog({
 	}, [open]);
 
 	useEffect(() => {
-		if (open && startWithPermissions && user) setShowPermissions(true);
-	}, [open, startWithPermissions, user]);
+		if (open && startWithPermissions && (user || localMode)) setShowPermissions(true);
+	}, [open, startWithPermissions, user, localMode]);
 
 	useEffect(() => {
 		if (!open) return;
@@ -174,7 +177,7 @@ export function RecordlySignInDialog({
 		void run("link", async () => {
 			await sendSignInLink(email.trim());
 			setMessage(
-				"Check your inbox to verify your email and continue to Recordly. Open the link on this computer with Recordly running.",
+				"Check your inbox to verify your email and continue. Open the link on this computer with the app running.",
 			);
 			setLinkSent(true);
 		});
@@ -237,27 +240,27 @@ export function RecordlySignInDialog({
 													alt=""
 													className="size-7 rounded-lg sm:size-8"
 												/>
-												Recordly
+												OpenSpype
 											</span>
 										</>
 									)
 								}
 								description={
 									user
-										? user.email || "You’re signed in and ready to continue."
-										: "Sign in to Recordly to start recording, save your work and share it."
+										? user.email || "You're signed in and ready to continue."
+										: "Sign in to save your work and share it."
 								}
 							/>
 						) : (
 							<Modal.Header className="items-center gap-3 text-center">
-								<div className="flex items-center gap-3" aria-label="Recordly">
+								<div className="flex items-center gap-3" aria-label="OpenSpype">
 									<img
 										src={`${import.meta.env.BASE_URL}app-icons/recordly-128.png`}
 										alt=""
 										className="size-12 rounded-xl"
 									/>
 									<span className="text-3xl font-semibold tracking-tight">
-										Recordly
+										OpenSpype
 									</span>
 								</div>
 								<Modal.Heading className="whitespace-nowrap text-[clamp(12px,5cqw,22px)] font-semibold leading-tight tracking-tight">
@@ -471,7 +474,7 @@ export function RecordlySignInDialog({
 					<MotionDialog
 						layout={!onboarding}
 						transition={transition}
-						aria-label={onboarding ? "Welcome to Recordly" : undefined}
+						aria-label={onboarding ? "Welcome to OpenSpype" : undefined}
 						data-onboarding-state={
 							onboarding ? (permissions ? "permissions" : "login") : undefined
 						}
@@ -484,9 +487,9 @@ export function RecordlySignInDialog({
 						{onboarding ? (
 							<OnboardingLayout
 								stage={permissions ? "permissions" : "account"}
-								canViewPermissions={Boolean(user)}
+								canViewPermissions={Boolean(user || localMode)}
 								onStageChange={(stage) =>
-									setShowPermissions(stage === "permissions" && Boolean(user))
+									setShowPermissions(stage === "permissions" && Boolean(user || localMode))
 								}
 							>
 								<AnimatePresence
@@ -508,7 +511,7 @@ export function RecordlySignInDialog({
 											<OnboardingPermissions
 												onBack={() => setShowPermissions(false)}
 												onFinish={() => {
-													if (user) onAuthenticated();
+													onAuthenticated();
 												}}
 											/>
 										) : (
