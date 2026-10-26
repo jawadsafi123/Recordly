@@ -120,7 +120,7 @@
 			},
 			"spotlight": {
 				"label": "Spotlight",
-							"description": "A soft halo flashes around the pointer to emphasize the clicked area."
+				"description": "A soft halo flashes around the pointer to emphasize the clicked area."
 			},
 			"echo": {
 				"label": "Echo",
@@ -134,7 +134,7 @@
 		"webcam": "Webcam Overlay",
 		"webcamFootage": "Webcam Footage",
 		"webcamFootageDescription": "No webcam footage linked to this video",
-		"uploadWebcamFootage": " "Upload footage",
+		"uploadWebcamFootage": "Upload footage",
 		"replaceWebcamFootage": "Replace footage",
 		"removeWebcamFootage": "Remove footage",
 		"webcamFootageAdded": "Webcam footage linked",
