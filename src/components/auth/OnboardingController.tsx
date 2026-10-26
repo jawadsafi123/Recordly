@@ -35,6 +35,17 @@ export function OnboardingController({
 
 	useEffect(() => {
 		if (!ready) return;
+		if (!configured) {
+			// Local-first mode: no sign-in backend exists, so the account stage
+			// can never succeed. Skip it and start at permissions on first launch.
+			if (checked.current) return;
+			checked.current = true;
+			if (!loadAppSetting<boolean>(SEEN_KEY)) {
+				setStartWithPermissions(true);
+				setOpen(true);
+			}
+			return;
+		}
 		if (!user) {
 			setOpen(true);
 			return;
@@ -45,7 +56,7 @@ export function OnboardingController({
 			setStartWithPermissions(true);
 			setOpen(true);
 		} else if (!loadAppSetting<boolean>(SEEN_KEY)) setOpen(true);
-	}, [ready, user]);
+	}, [ready, user, configured]);
 
 	useEffect(
 		() =>
@@ -57,7 +68,8 @@ export function OnboardingController({
 	);
 
 	const finish = () => {
-		if (!user) return;
+		// In local-first mode there is no user, but onboarding must still complete.
+		if (!user && configured) return;
 		saveAppSetting(SEEN_KEY, true);
 		close();
 		void window.electronAPI.showRecordingHud();
@@ -70,7 +82,7 @@ export function OnboardingController({
 			variant="wide"
 			open={open}
 			onOpenChange={(value) => {
-				if (!value && user) close();
+				if (!value) close();
 			}}
 			user={user}
 			configured={configured}
