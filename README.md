@@ -1,8 +1,8 @@
-# OpenSpype
+# Recosy
 
 > Smart screen recorder with professional audio enhancement, an offline voice studio, and true audio/video sync — for Windows, macOS, and Linux. Free and open source.
 
-**OpenSpype** is a free, privacy-first screen recorder and video editor. Record your screen with microphone and system audio, enhance your voice with one click, optionally replace your voice with synthetic voices offline, and export polished videos for YouTube, TikTok, Reels, and more — all without paid subscriptions, cloud accounts, or uploads.
+**Recosy** is a free, privacy-first screen recorder and video editor. Record your screen with microphone and system audio, enhance your voice with one click, optionally replace your voice with synthetic voices offline, and export polished videos for YouTube, TikTok, Reels, and more — all without paid subscriptions, cloud accounts, or uploads.
 
 ---
 
@@ -10,13 +10,13 @@
 
 **Windows 10 (19041+) / macOS 14+ / Linux**
 
-Download the latest installer from the [Releases](https://github.com/jawadsafi123/OpenSpype/releases) page (published once Phase 1 builds pass).
+Download the latest installer from the [Releases](https://github.com/jawadsafi123/Recordly/releases) page (published once Phase 1 builds pass).
 
 Build from source:
 
 ```bash
-git clone https://github.com/jawadsafi123/OpenSpype.git openspype
-cd openspype
+git clone https://github.com/jawadsafi123/Recordly.git recosy
+cd recosy
 npm install
 npm run dev
 ```
@@ -87,15 +87,15 @@ npm run build:linux  # Linux AppImage
 
 ## Privacy Promise
 
-OpenSpype works fully offline. Recording, editing, audio enhancement, voice studio, captions, and export never touch the internet. Online-capable features are labeled with a 🌐 badge and disabled by default. We do not collect telemetry.
+Recosy works fully offline. Recording, editing, audio enhancement, voice studio, captions, and export never touch the internet. Online-capable features are labeled with a 🌐 badge and disabled by default. We do not collect telemetry.
 
 ---
 
 ## Attribution & License
 
-OpenSpype is licensed under the **AGPL-3.0** license.
+Recosy is licensed under the **AGPL-3.0** license.
 
-OpenSpype is based on [Recordly](https://github.com/webadderallorg/Recordly) by webadderall, which started as a fork of [OpenScreen](https://github.com/siddharthvaddem/openscreen) by Siddharth Vaddem. See [ATTRIBUTION.md](ATTRIBUTION.md) for details.
+Recosy is based on [Recordly](https://github.com/webadderallorg/Recordly) by webadderall, which started as a fork of [OpenScreen](https://github.com/siddharthvaddem/openscreen) by Siddharth Vaddem. See [ATTRIBUTION.md](ATTRIBUTION.md) for details.
 
 ---
 
