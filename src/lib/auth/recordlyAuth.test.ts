@@ -54,17 +54,17 @@ for (const [description, session, error, expected] of [
 	["anonymous user", { user: { id: "guest", is_anonymous: true } }, null, false],
 	["session error", null, new Error("Session expired"), false],
 ] as const) {
-	it(`requires a Supabase session: ${description}`, async () => {
+	it(`requires a Supabase session when configured: ${description}`, async () => {
 		getSession.mockResolvedValue({ data: { session }, error });
 		const { hasRecordlySession } = await import("./recordlyAuth");
 		await expect(hasRecordlySession()).resolves.toBe(expected);
 	});
 }
 
-it("does not permit recording when Supabase is unconfigured", async () => {
+it("allows recording in local-first mode when Supabase is unconfigured", async () => {
 	vi.stubEnv("VITE_SUPABASE_URL", "");
 	const { hasRecordlySession } = await import("./recordlyAuth");
-	await expect(hasRecordlySession()).resolves.toBe(false);
+	await expect(hasRecordlySession()).resolves.toBe(true);
 	expect(getSession).not.toHaveBeenCalled();
 });
 
@@ -146,7 +146,7 @@ for (const dev of [true, false]) {
 			options: {
 				emailRedirectTo: dev
 					? "http://127.0.0.1:43821/auth/callback"
-					: "recordly://auth/callback",
+					: "recosy://auth/callback",
 				shouldCreateUser: true,
 			},
 		});
@@ -157,6 +157,6 @@ it("does not accept dashboard implicit session tokens as a PKCE callback", async
 	const { completeAuthCallback } = await import("./recordlyAuth");
 	await expect(
 		completeAuthCallback("recordly://auth/callback#access_token=test&refresh_token=test"),
-	).rejects.toThrow("Request a new sign-in link from Recordly");
+	).rejects.toThrow("Request a new sign-in link from Recosy");
 	expect(exchange).not.toHaveBeenCalled();
 });
