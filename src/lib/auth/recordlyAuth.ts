@@ -143,7 +143,10 @@ export async function requestAccountEmailChange(email: string): Promise<User> {
 }
 
 export async function hasRecordlySession(): Promise<boolean> {
-	if (!recordlyAuth) return false;
+	// Local-first mode: when no sign-in backend is configured, the core
+	// recorder must never gate on a cloud session. Recording, editing, and
+	// export are fully local features and stay available without an account.
+	if (!recordlyAuth) return true;
 	const { data, error } = await recordlyAuth.auth.getSession();
 	return !error && Boolean(data.session?.user && !data.session.user.is_anonymous);
 }
