@@ -54,7 +54,7 @@ export function buildVoiceEnhancementFilterGraph(
   outputLabel: string,
   options: VoiceEnhancementOptions = {},
 ): string {
-  if (!/^\\[[A-Za-z0-9_]+\\]$/.test(inputLabel) || !/^\\[[A-Za-z0-9_]+\\]$/.test(outputLabel)) {
+  if (!/^\[[A-Za-z0-9_]+\]$/.test(inputLabel) || !/^\[[A-Za-z0-9_]+\]$/.test(outputLabel)) {
     throw new Error("FFmpeg audio labels must use bracketed alphanumeric identifiers.");
   }
 
