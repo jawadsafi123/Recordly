@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { dialog, ipcMain } from "electron";
 import { getFfmpegBinaryPath } from "../ffmpeg/binary";
@@ -54,6 +55,12 @@ export function registerVoiceEnhancementHandlers() {
 		if (path.resolve(save.filePath) === path.resolve(inputPath)) {
 			return { success: false, error: "Choose a different output name so the original recording stays safe." };
 		}
+		try {
+			await fs.access(save.filePath);
+			return { success: false, error: "That output file already exists. Choose a new name to avoid overwriting another file." };
+		} catch {
+			// The destination does not exist, so a failed render cannot destroy an existing file.
+		}
 
 		const filters = buildVoiceEnhancementFilters().join(",");
 		const args = ["-hide_banner", "-nostdin", "-y", "-i", inputPath];
@@ -69,6 +76,7 @@ export function registerVoiceEnhancementHandlers() {
 			await runFfmpeg(args);
 			return { success: true, outputPath: save.filePath };
 		} catch (error) {
+			await fs.rm(save.filePath, { force: true }).catch(() => undefined);
 			return {
 				success: false,
 				error: error instanceof Error ? error.message : "Voice enhancement failed.",
