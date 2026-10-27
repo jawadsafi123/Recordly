@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import path from "node:path";
-import { app, dialog, ipcMain } from "electron";
+import { dialog, ipcMain } from "electron";
 import { getFfmpegBinaryPath } from "../ffmpeg/binary";
 import { buildVoiceEnhancementFilters } from "../recording/voiceEnhancement";
 
