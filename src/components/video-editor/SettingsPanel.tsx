@@ -2,6 +2,7 @@ import type { User } from "@supabase/supabase-js";
 import { AccountSettings } from "@/components/auth/AccountSettings";
 import { RecordingPermissionsSettings } from "@/components/auth/RecordingPermissionsSettings";
 import { SettingsSections, SettingsCategory } from "./SettingsSections";
+import { OfflineVoiceEnhancement } from "./OfflineVoiceEnhancement";
 import { Card, RadioGroup, Radio, Label, Description } from "@heroui/react";
 import { ProgressBar } from "@heroui/react";
 import { ColorControl, ColorPalette } from "@/components/ui/color-picker";
@@ -2317,6 +2318,7 @@ export function SettingsPanel({
 							</SelectContent>
 						</Select>
 					</SettingsRow>
+					<OfflineVoiceEnhancement />
 				</SettingsCategory>
 				<SettingsCategory category="advanced">
 					{advanced && (
