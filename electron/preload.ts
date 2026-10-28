@@ -1061,8 +1061,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.on("cloud-share-progress", listener);
 		return () => ipcRenderer.removeListener("cloud-share-progress", listener);
 	},
-	voiceEnhancementRun: (): Promise<{ success: boolean; canceled?: boolean; outputPath?: string; error?: string }> =>
-		ipcRenderer.invoke("voice-enhancement:run"),
+	voiceEnhancementRun: (inputPath: string): Promise<{ success: boolean; canceled?: boolean; outputPath?: string; error?: string }> =>
+		ipcRenderer.invoke("voice-enhancement:run", inputPath),
 	openRecordingsFolder: () => {
 		return ipcRenderer.invoke("open-recordings-folder");
 	},
