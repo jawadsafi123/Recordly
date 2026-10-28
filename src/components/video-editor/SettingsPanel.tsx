@@ -428,6 +428,9 @@ interface SettingsPanelProps {
 	advanced?: boolean;
 	panelMode?: "editor" | "background";
 	activeEffectSection?: EditorEffectSection;
+	voiceEnhancementInputPath?: string | null;
+	voiceEnhancementDisabled?: boolean;
+	onVoiceEnhancementComplete?: (audioPath: string) => void;
 	selected: string;
 	onWallpaperChange: (path: string) => void;
 	selectedZoomDepth?: ZoomDepth | null;
@@ -886,6 +889,9 @@ export function SettingsPanel({
 	advanced = false,
 	panelMode = "editor",
 	activeEffectSection: activeEffectSectionProp,
+	voiceEnhancementInputPath = null,
+	voiceEnhancementDisabled = false,
+	onVoiceEnhancementComplete,
 	selected,
 	onWallpaperChange,
 	selectedZoomDepth,
@@ -2318,7 +2324,13 @@ export function SettingsPanel({
 							</SelectContent>
 						</Select>
 					</SettingsRow>
-					<OfflineVoiceEnhancement />
+					{panelMode === "editor" && voiceEnhancementInputPath && onVoiceEnhancementComplete && (
+						<OfflineVoiceEnhancement
+							inputPath={voiceEnhancementInputPath}
+							disabled={voiceEnhancementDisabled}
+							onEnhancedAudio={onVoiceEnhancementComplete}
+						/>
+					)}
 				</SettingsCategory>
 				<SettingsCategory category="advanced">
 					{advanced && (
