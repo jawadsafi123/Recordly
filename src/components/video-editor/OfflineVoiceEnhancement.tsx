@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
-import { SettingsRow } from "./SettingsRow";
 
 interface OfflineVoiceEnhancementProps {
 	inputPath: string;
@@ -37,19 +36,15 @@ export function OfflineVoiceEnhancement({
 		}
 	};
 	return (
-		<SettingsRow
-			title="Enhance voice"
-			description="Reduce background noise and balance the spoken audio from the video currently open in the editor. Adds a separate enhanced audio track and keeps the original video unchanged."
-			stacked
+		<Button
+			variant="secondary"
+			size="sm"
+			onClick={() => void handleEnhance()}
+			disabled={processing || disabled || !inputPath}
+			title="Reduce background noise and balance voice levels in the current video"
+			className="h-9 shrink-0"
 		>
-			<Button
-				variant="secondary"
-				size="sm"
-				onClick={() => void handleEnhance()}
-				disabled={processing || disabled || !inputPath}
-			>
-				{processing ? "Enhancing voice…" : "Enhance current video"}
-			</Button>
-		</SettingsRow>
+			{processing ? "Enhancing voice…" : "Enhance Voice"}
+		</Button>
 	);
 }
