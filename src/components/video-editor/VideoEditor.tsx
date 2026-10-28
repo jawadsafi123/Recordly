@@ -393,7 +393,20 @@ export default function VideoEditor() {
 			exportSettings={exportSettings}
 			exportSession={exportSession}
 			exportDimensions={exportDimensions}
-			settingsPanelProps={settingsPanelProps}
+			settingsPanelProps={{
+				...settingsPanelProps,
+				voiceEnhancementInputPath: videoPath,
+				voiceEnhancementDisabled: loading || !videoPath || duration <= 0,
+				onVoiceEnhancementComplete: (audioPath) => {
+					editing.audioCommands.handleAudioAdded(
+						{ start: 0, end: duration * 1000 },
+						audioPath,
+					);
+					timeline.setClipRegions((clips) =>
+						clips.map((clip) => ({ ...clip, muted: true })),
+					);
+				},
+			}}
 			headerLeftControlsPaddingClass={headerLeftControlsPaddingClass}
 			hasCaptionsForSidecar={hasCaptionsForSidecar}
 			nvidiaCudaExportAvailable={nvidiaCudaExportAvailable}
