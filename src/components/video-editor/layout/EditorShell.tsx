@@ -296,6 +296,15 @@ export function EditorShell(props: Props) {
 				accountId={auth.user?.id}
 				revealExportedFile={dialogActions.revealExportedFile}
 				exportMessage={exportMessage}
+				onVoiceEnhancementComplete={(audioPath) => {
+					editing.audioCommands.handleAudioAdded(
+						{ start: 0, end: ui.duration * 1000 },
+						audioPath,
+					);
+					timeline.setClipRegions((clips) =>
+						clips.map((clip) => ({ ...clip, muted: true })),
+					);
+				}}
 			/>
 			<EditorAnnouncementBanner />
 			<div

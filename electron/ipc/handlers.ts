@@ -10,6 +10,7 @@ import { registerProjectHandlers } from "./register/project";
 import { registerRecordingHandlers } from "./register/recording";
 import { registerSettingsHandlers } from "./register/settings";
 import { registerSourceHandlers } from "./register/sources";
+import { registerVoiceEnhancementHandlers } from "./register/voiceEnhancement";
 import {
 	selectedSource,
 	setNativeScreenRecordingActive,
@@ -67,6 +68,7 @@ export function registerIpcHandlers(
 	});
 	registerCapturePickerHandlers({ pickSourceList });
 	registerRecordingHandlers(onRecordingStateChange);
+	registerVoiceEnhancementHandlers();
 	registerPermissionHandlers();
 	registerAnnouncementHandlers();
 	registerAssetHandlers();

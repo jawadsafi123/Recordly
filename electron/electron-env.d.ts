@@ -998,6 +998,7 @@ interface Window {
 				totalBytes: number;
 			}) => void,
 		) => () => void;
+		voiceEnhancementRun: (inputPath: string) => Promise<{ success: boolean; canceled?: boolean; outputPath?: string; error?: string }>;
 		openRecordingsFolder: () => Promise<{ success: boolean; error?: string; message?: string }>;
 		getRecordingsDirectory: () => Promise<{
 			success: boolean;
