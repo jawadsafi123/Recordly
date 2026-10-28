@@ -6,10 +6,6 @@ import { getFfmpegBinaryPath } from "../ffmpeg/binary";
 import { buildVoiceEnhancementFilters } from "../recording/voiceEnhancement";
 
 const VIDEO_EXTENSIONS = new Set([".mp4", ".mov", ".m4v", ".mkv", ".webm"]);
-const INPUT_EXTENSIONS = [
-	"mp4", "mov", "m4v", "mkv", "webm",
-	"m4a", "mp3", "wav", "aac", "flac", "ogg", "opus",
-];
 
 function runFfmpeg(args: string[]): Promise<void> {
 	return new Promise((resolve, reject) => {
@@ -31,47 +27,44 @@ function runFfmpeg(args: string[]): Promise<void> {
 	});
 }
 
-/** Registers a local-only voice enhancement flow. The source file is never overwritten. */
+/** Enhances the currently open video's audio into a separate local file. The source is never overwritten. */
 export function registerVoiceEnhancementHandlers() {
-	ipcMain.handle("voice-enhancement:run", async () => {
-		const selected = await dialog.showOpenDialog({
-			title: "Choose a recording to enhance",
-			properties: ["openFile"],
-			filters: [{ name: "Audio and video files", extensions: INPUT_EXTENSIONS }],
-		});
-		if (selected.canceled || !selected.filePaths[0]) return { success: false, canceled: true };
+	ipcMain.handle("voice-enhancement:run", async (_event, inputPath: unknown) => {
+		if (typeof inputPath !== "string" || !path.isAbsolute(inputPath)) {
+			return { success: false, error: "Open a video in the editor before enhancing its voice." };
+		}
+		try {
+			await fs.access(inputPath);
+		} catch {
+			return { success: false, error: "The currently open video file could not be found." };
+		}
 
-		const inputPath = selected.filePaths[0];
 		const extension = path.extname(inputPath).toLowerCase();
-		const isVideo = VIDEO_EXTENSIONS.has(extension);
+		if (!VIDEO_EXTENSIONS.has(extension)) {
+			return { success: false, error: "Voice enhancement currently supports video files opened in the editor." };
+		}
 		const parsed = path.parse(inputPath);
-		const outputExtension = isVideo ? (extension === ".webm" ? ".mkv" : extension) : ".m4a";
 		const save = await dialog.showSaveDialog({
-			title: "Save enhanced recording",
-			defaultPath: path.join(parsed.dir, `${parsed.name}-enhanced${outputExtension}`),
-			filters: [{ name: isVideo ? "Enhanced video" : "Enhanced audio", extensions: [outputExtension.slice(1)] }],
+			title: "Save enhanced voice audio",
+			defaultPath: path.join(parsed.dir, `${parsed.name}-enhanced-voice.m4a`),
+			filters: [{ name: "Enhanced voice audio", extensions: ["m4a"] }],
 		});
 		if (save.canceled || !save.filePath) return { success: false, canceled: true };
 		if (path.resolve(save.filePath) === path.resolve(inputPath)) {
-			return { success: false, error: "Choose a different output name so the original recording stays safe." };
+			return { success: false, error: "Choose a separate audio filename to keep your original video safe." };
 		}
 		try {
 			await fs.access(save.filePath);
 			return { success: false, error: "That output file already exists. Choose a new name to avoid overwriting another file." };
 		} catch {
-			// The destination does not exist, so a failed render cannot destroy an existing file.
+			// The destination does not exist.
 		}
 
-		const filters = buildVoiceEnhancementFilters().join(",");
-		const args = ["-hide_banner", "-nostdin", "-y", "-i", inputPath];
-		if (isVideo) {
-			args.push("-map", "0:v?", "-map", "0:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-af", filters);
-			if ([".mp4", ".m4v", ".mov"].includes(outputExtension)) args.push("-movflags", "+faststart");
-		} else {
-			args.push("-map", "0:a:0", "-vn", "-c:a", "aac", "-b:a", "192k", "-af", filters);
-		}
-		args.push(save.filePath);
-
+		const args = [
+			"-hide_banner", "-nostdin", "-y", "-i", inputPath,
+			"-map", "0:a:0", "-vn", "-c:a", "aac", "-b:a", "192k",
+			"-af", buildVoiceEnhancementFilters().join(","), save.filePath,
+		];
 		try {
 			await runFfmpeg(args);
 			return { success: true, outputPath: save.filePath };
