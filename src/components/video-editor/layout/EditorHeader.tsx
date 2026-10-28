@@ -17,6 +17,7 @@ import type { useVideoEditorPresets } from "../presets/useVideoEditorPresets";
 import type { useProjectState } from "../state/useProjectState";
 import { EditorExportMenu } from "./EditorExportMenu";
 import { EditorPresetMenu } from "./EditorPresetMenu";
+import { OfflineVoiceEnhancement } from "../OfflineVoiceEnhancement";
 
 // Keep the preset implementation available for future use.
 const SHOW_PRESETS_BUTTON = false;
@@ -59,6 +60,7 @@ type Props = {
 	shareRequestNonce: number;
 	authToken?: string;
 	accountId?: string;
+	onVoiceEnhancementComplete: (audioPath: string) => void;
 };
 
 export function EditorHeader(props: Props) {
@@ -180,6 +182,11 @@ export function EditorHeader(props: Props) {
 					)}
 				</div>
 				<Separator orientation="vertical" className="mx-3 h-5 shrink-0 self-center" />
+				<OfflineVoiceEnhancement
+					inputPath={project.videoPath ?? ""}
+					disabled={project.loading || !project.videoPath}
+					onEnhancedAudio={props.onVoiceEnhancementComplete}
+				/>
 				<Button
 					variant="secondary"
 					size="sm"
